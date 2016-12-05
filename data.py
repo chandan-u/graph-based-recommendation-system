@@ -1,6 +1,6 @@
 
 import pandas as  pd
-
+import numpy as np
 
 def load_movielens():
 
@@ -26,7 +26,7 @@ def load_movielens():
     return movies, ratings
 
 
-def biparteMatrix(movies_frame):
+def biparteMatrix(movies_frame, ratings_frame):
 
     """
 
@@ -34,9 +34,35 @@ def biparteMatrix(movies_frame):
 
     """
 
+   
+    user_ids = list(ratings_frame.userId.unique()) 
+    movie_ids = list(movies_frame.movieId.unique()) 
+
+    numberOfUsers =  len(user_ids)
+
+    numberOfMovies = len(movie_ids)
+    
+    
+    
+    # initialize a numpy matrix of of numberOfUsers * numberOfMovies
+
+    user_movie_biparte = np.zeros((numberOfUsers, numberOfMovies))
 
 
+    for name, group in ratings_frame.groupby(["userId", "movieId"]):
 
+        #print name 
+        #print group
+        
+        # name is a tuple (userId, movieId)
+        
+        userId, movieId = name
+
+        user_index = user_ids.index(userId)
+        movie_index = movie_ids.index(movieId)
+        user_movie_biparte[user_index, movie_index] = group[["rating"]].values[0,0]
+
+    return user_movie_biparte
 
 
 def load():
@@ -57,4 +83,14 @@ def load():
 
       
     #convet the ratings datafrom into user-movieId biparte adjacency matrix
-    biparteMatrix(movies)
+    matrix = biparteMatrix(movies, ratings)
+
+    return matrix
+
+
+    
+    
+
+
+
+load()    
