@@ -15,5 +15,3 @@ This is project is about building a recommendation system using graph search met
 We will be using the move lens dataset.
 
 
-
-## 
