@@ -25,6 +25,13 @@ In this project we implement a collaberative filtering recommendation system tha
 # Data:
 The data set is obtained from http://grouplens.org/ . They have a collection of ratings of movies from MovieLens website . This data set covers 100,000 ratings and 1,300 tag applications applied to 9,000 movies by 671 users. For implementing the collaberative filter system we will be using all the data except for tags. The data set has mainly two files : movies.csv, ratings.csv.     
 
+Number of users: 671    
+Number of movies: >9000    
+Number of ratings: 100,000
+
+Files: movies.csv, ratings.csv
+
+
 
 
 # Representation of data:
@@ -47,6 +54,10 @@ Biparte matrix translation to graph:
 
 
 ![](biparte.png)
+
+
+The actual data set has 9123 movies and 671 customer. So the biparte graph matrix is of size (9123 * 671).
+
 
 
 	
@@ -79,7 +90,7 @@ Here is a simple algorithm
             Step1: choose  all the movies that the user watched.
             Step2: obtain genre of all the movies that user watched
             
-            Step 3: sum all the ratings for each genre 
+            Step 3: sum all the ratings for each genre that is given by the target user
             
             Step 4: Divide the cumulative rating of each genre with 
             the number of movies in that genre. 
@@ -195,22 +206,31 @@ Similar Users:
 
  Total distance  = $\sqrt[2]{( (1-0)^{2} + (1-1)^{2} + (0-1)^{2} + (1-1)^{2} )^{2}}$  = $\sqrt[2]{2}$
  
+ It seems like the content based has not fared well as it failed to give the most similar recommendation. But this is epxected behaviour. This approach is more helpfull when we are trying to compare one collabertive filtering algorithm with another collaberative filtering algorithm. 
+ 
+In this program  we have implemented only for one movie recommendation to the target user customer 1. So apparently the euclidian distances  are not good enough to compare the algorithms. This is because the program took a lot of time just to execute for one target user.
+
+```
+The content Based recommendatin is:
+284      318  Shawshank Redemption, The (1994)  Crime|Drama
+
+The collaberative based recommendatoin is :
+15       16   Casino (1995)  Crime
+```
 
 
-  
+
 # Conclusion:
 
+1.) There are many ways to implement collaberative as well as content based filtering. What we have implemented in this project is not the best approach. It can be improved a lot more.
+
+2.) In this experiment though we have used the Euclidian distance to get similar users , there are far more better approaches to get similar / neighbouring users such as the manhattan distance , the pearson corellation which is considered one of the best for the collabertive filtering problem.
+
+3.) In the project we have implemented BFS to obtain the paths from customer to movie in biparte graph. But as the number of movies increases  this might be problem as we have to compute more number of paths. We have to explore other ways such as implementing greedy algorithms which are faster and take less computation but may not give an optimal solution. Or we can do iterative deepening search to limit depth of the graph search. This is something that would very efficient and intresting to try.
+
+4.) As for the testing it would be more realistic to have data where we have information about what movies did the customer/user choose after the recommendation. This way we can implement precission and recall metircs easily. 
 
 
-
-Challenges: 	
-
-Cold start problem
-sparsity problem
-Basic assumption:
-Assumptions :
- If users had similar tastes in the past they will have similar tastes in the future
-– User preferences remain stable and consistent over time	
 
 
 
@@ -221,6 +241,12 @@ Assumptions :
 
 References:
 
-1.) https://en.wikipedia.org/wiki/Recommender_system
-2.) https://en.wikipedia.org/wiki/Euclidean_distance
-3.) http://arizona.openrepository.com/arizona/bitstream/10150/196109/1/azu_etd_1167_sip1_m.pdf
+1.) https://en.wikipedia.org/wiki/Recommender_system    
+2.) https://en.wikipedia.org/wiki/Euclidean_distance    
+3.) GRAPH-BASED ANALYSIS FOR E-COMMERCE RECOMMENDATION[http://arizona.openrepository.com/arizona/bitstream/10150/196109/1/azu_etd_1167_sip1_m.pdf]    
+4.) Collaborative Filtering using Weighted BiPartite Graph Projection [http://snap.stanford.edu/class/cs224w-2013/projects2013/cs224w-038-final.pdf]    
+
+5.)Movie Recommendation based on graph traversal Algorithms[http://www2.fiit.stuba.sk/~bielik/publ/abstracts/2013/televido-dexa2013.pdf]     
+6.) http://grouplens.org/blog/    
+
+
